@@ -1,0 +1,41 @@
+[submodule "Firmware"]
+	path = Firmware
+	url = git@github.com:ARG-NCTU/PX4-Autopilot.git
+	branch = master
+[submodule "catkin_ws/src/vrx"]
+	path = catkin_ws/src/vrx
+	url = git@github.com:ARG-NCTU/vrx.git
+	branch = master
+[submodule "catkin_ws/src/behavior_tree"]
+	path = catkin_ws/src/behavior_tree
+	url = git@github.com:ARG-NCTU/behavior_tree.git
+[submodule "catkin_ws/src/behavior_tree_msgs"]
+	path = catkin_ws/src/behavior_tree_msgs
+	url = git@github.com:ARG-NCTU/behavior_tree_msgs.git
+[submodule "catkin_ws/src/pozyx_simulation"]
+	path = catkin_ws/src/pozyx_simulation
+	url = git@github.com:ARG-NCTU/pozyx_simulation.git
+[submodule "catkin_ws/src/drone_teleop"]
+	path = catkin_ws/src/drone_teleop
+	url = git@github.com:ARG-NCTU/drone_teleop.git
+[submodule "catkin_ws/src/sjtu-drone"]
+	path = catkin_ws/src/sjtu-drone
+	url = git@github.com:ARG-NCTU/sjtu-drone.git
+[submodule "catkin_ws/src/drone_navigation"]
+	path = catkin_ws/src/drone_navigation
+	url = git@github.com:ARG-NCTU/drone_navigation.git
+[submodule "catkin_ws/src/drone_perception"]
+	path = catkin_ws/src/drone_perception
+	url = git@github.com:ARG-NCTU/drone_perception.git
+[submodule "catkin_ws/src/drone_controller"]
+	path = catkin_ws/src/drone_controller
+	url = git@github.com:ARG-NCTU/drone_controller.git
+[submodule "catkin_ws/src/pozyx_ros"]
+	path = catkin_ws/src/pozyx_ros
+	url = git@github.com:ARG-NCTU/pozyx_uwb.git
+[submodule "catkin_ws/src/geometry2"]
+	path = catkin_ws/src/geometry2
+	url = git@github.com:ARG-NCTU/geometry2.git
+[submodule "catkin_ws/src/jetsea_vessel"]
+	path = catkin_ws/src/jetsea_vessel
+	url = git@github.com:ARG-NCTU/jetsea_vessel.git
