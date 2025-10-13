@@ -1,0 +1,233 @@
+cmd "01_core"
+{
+    exec = "roscore";
+    host = "localhost";
+}
+
+cmd "02_rosbridge"
+{
+    exec = "roslaunch rosbridge_server rosbridge_websocket.launch";
+    host = "localhost";
+}
+
+group "03_gazebo_environment"
+{
+    cmd "03_01_PX4_landing"
+    {
+        exec = "roslaunch vrx_gazebo vrx_drone_uwb.launch wamv_plate:=false wamv_holed_plate:=true red_torus:=false";
+        host = "localhost";
+    }
+
+    cmd "03_01_PX4_latching"
+    {
+        exec = "roslaunch vrx_gazebo vrx_drone_uwb.launch wamv_plate:=true wamv_holed_plate:=false red_torus:=true";
+        host = "localhost";
+    }
+
+    group "03_02_wamv"
+    {
+        cmd "03_02_01_wamv_localization"
+        {
+            exec = "roslaunch localization localization_gps_imu_wamv.launch num:=1";
+            host = "localhost";
+        }
+    }
+
+    group "03_03_drone"
+    {
+        cmd "03_03_01_pozyx_simulation"
+        {
+            exec = "roslaunch pozyx_simulation uwb_wamv_uav_simulation.launch";
+            host = "localhost";
+        }
+    }
+}
+
+group "04_teleop"
+{
+    cmd "04_01_joy_drone_teleop"
+    {
+        exec = "roslaunch vrx_gazebo usv_joydrive_mavlink.launch";
+        host = "localhost";
+    }
+}
+
+group "05_wamv_control"
+{
+    cmd "05_01_wamv_move_circle"
+    {
+        exec = "rosrun vrx_gazebo wamv_move_circle.py";
+        host = "localhost";
+    }
+}
+
+group "09_tree"
+{
+    cmd "09_01_action_to_bool"
+    {
+        exec = "rosrun drone_controller action_to_bool.py";
+        host = "localhost";
+    }
+    cmd "09_02_tree_track_wamv_full_server"
+    {
+        exec = "roslaunch behavior_tree behavior_tree.launch tree:=track_wamv_full.tree wait_for_generation:=false";
+        host = "localhost";
+    }
+    cmd "09_03_tree_drone_track_and_land_server"
+    {
+        exec = "roslaunch behavior_tree behavior_tree.launch tree:=drone_track_and_land.tree wait_for_generation:=false";
+        host = "localhost";
+    }
+
+    cmd "09_04_tree_drone_track_and_vs_land_server"
+    {
+        exec = "roslaunch behavior_tree behavior_tree.launch tree:=drone_track_and_vs_land.tree wait_for_generation:=false";
+        host = "localhost";
+    }
+
+    cmd "09_05_tree_drone_track_and_vs_latch_server"
+    {
+        exec = "roslaunch behavior_tree behavior_tree.launch tree:=drone_track_and_vs_latch.tree wait_for_generation:=false";
+        host = "localhost";
+    }
+}
+
+group "10_drone_perception"
+{
+    cmd "10_01_ball_visual_servoing"
+    {
+        exec = "roslaunch drone_perception ball_visual_servoing_compressed.launch";
+        host = "localhost";
+    }
+
+    cmd "10_02_green_visual_servoing"
+    {
+        exec = "roslaunch drone_perception ball_visual_servoing_green_compressed.launch smooth:=false";
+        host = "localhost";
+    }
+
+    cmd "10_02_scan_label_by_image_seg"
+    {
+        exec = "rosrun drone_perception scan_label_by_image_seg.py";
+        host = "localhost";
+    }
+}
+
+group "11_drone_control"
+{
+    cmd "11_01_drone_combine_control"
+    {
+        exec = "roslaunch drone_controller fusion_control_ball_wamv_circle_latch.launch combine_pose_cam_error:=true";
+        host = "localhost";
+    }
+
+    cmd "11_02_drone_control"
+    {
+        exec = "roslaunch drone_controller fusion_control_ball_wamv_circle.launch combine_pose_cam_error:=false";
+        host = "localhost";
+    }
+
+    cmd "11_03_latch"
+    {
+        exec = "roslaunch drone_controller latch.launch";
+        host = "localhost";
+    }
+
+    cmd "11_04_drone_track_wamv_uwb"
+    {
+        exec = "rosrun drone_controller track_wamv_uwb_pose.py";
+        host = "localhost";
+    }
+
+    cmd "11_05_drone_track_wamv_gps"
+    {
+        exec = "rosrun drone_controller track_wamv_gps_pose.py";
+        host = "localhost";
+    }
+
+    cmd "11_06_drone_move_forward_up"
+    {
+        exec = "rosrun drone_controller move_forward_up.py";
+        host = "localhost";
+    }
+}
+
+group "12_drone_navigation"
+{
+    cmd "12_01_navigation_server"
+    {
+        exec = "roslaunch drone_navigation navigation_manager.launch";
+        host = "localhost";
+    }
+    cmd "12_02_waypoint_following_wamv"
+    {
+        exec = "roslaunch drone_navigation waypoint_following_wamv.launch";
+        host = "localhost";
+    }
+}
+
+group "99_debug"
+{
+    cmd "99_01_rviz"
+    {
+        exec = "rviz -d rviz/drone_uwb_sim.rviz";
+        host = "localhost";
+    }
+    cmd "99_02_rqt"
+    {
+        exec = "rqt";
+        host = "localhost";
+    }
+
+    cmd "99_03_viewer"
+    {
+        exec = "/home/argrobotx/robotx-2022/scripts/multi_cam_viewer.py";
+        host = "localhost";
+    }
+}
+
+script "general"
+{
+    start cmd "01_core" wait "running";
+}
+
+script "uwb_range_land_latch"
+{
+    #start cmd "01_core" wait "running";
+    #wait ms 500;
+    start group "03_gazebo_environment/03_02_wamv" wait "running";
+    start group "03_gazebo_environment/03_03_drone" wait "running";
+    start group "04_teleop" wait "running";
+    start cmd "09_01_action_to_bool" wait "running";
+    start cmd "09_03_tree_drone_track_and_land_server" wait "running";
+    start cmd "05_01_wamv_move_circle" wait "running";
+    #start cmd "99_01_rviz" wait "running";
+}
+
+script "vs_land"
+{
+    start group "03_gazebo_environment/03_02_wamv" wait "running";
+    start group "03_gazebo_environment/03_03_drone" wait "running";
+    start group "04_teleop" wait "running";
+    start cmd "09_01_action_to_bool" wait "running";
+    start cmd "09_04_tree_drone_track_and_vs_land_server" wait "running";
+    start cmd "05_01_wamv_move_circle" wait "running";
+    start cmd "10_02_green_visual_servoing" wait "running";
+    start cmd "11_02_drone_control" wait "running";
+    start cmd "11_06_drone_move_forward_up" wait "running";
+    #start cmd "99_01_rviz" wait "running";
+}
+
+script "vs_latch"
+{
+    start group "03_gazebo_environment/03_02_wamv" wait "running";
+    start group "03_gazebo_environment/03_03_drone" wait "running";
+    start group "04_teleop" wait "running";
+    start cmd "09_01_action_to_bool" wait "running";
+    start cmd "09_05_tree_drone_track_and_vs_latch_server" wait "running";
+    start cmd "05_01_wamv_move_circle" wait "running";
+    start cmd "10_01_ball_visual_servoing" wait "running";
+    start cmd "11_01_drone_combine_control" wait "running";
+    start cmd "11_06_drone_move_forward_up" wait "running";
+    #start cmd "99_01_rviz" wait "running";
+}

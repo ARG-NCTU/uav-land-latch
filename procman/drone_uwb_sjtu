@@ -1,0 +1,52 @@
+cmd "01_core"
+{
+    exec = "roscore";
+    host = "localhost";
+}
+
+cmd "02_rosbridge"
+{
+    exec = "roslaunch rosbridge_server rosbridge_websocket.launch";
+    host = "localhost";
+}
+
+cmd "03_environment"
+{
+    exec = "roslaunch vrx_gazebo vrx_drone_uwb_sjtu.launch gui:=false";
+    host = "localhost";
+}
+
+cmd "04_joy_drone_teleop"
+{
+    exec = "roslaunch drone_teleop drone_teleop.launch cmd_vel_topic:=/sjtu_drone/cmd_vel";
+    host = "localhost";
+}
+
+cmd "05_pozys_simulation"
+{
+    exec = "roslaunch pozyx_simulation uwb_wamv_uav_simulation.launch drone_ns:=sjtu_drone enable_multilateration:=false enable_path:=false pub_marker:=false";
+    host = "localhost";
+}
+
+group "97_debug"
+{
+    cmd "98_rviz"
+    {
+        exec = "rviz -d rviz/drone_uwb_sjtu.rviz";
+        host = "localhost";
+    }
+    cmd "99_rqt"
+    {
+        exec = "rqt";
+        host = "localhost";
+    }
+}
+
+script "general"
+{
+    start cmd "01_core" wait "running";
+    # start cmd "02_rosbridge" wait "running";
+    # start cmd "03_environment" wait "running";
+    # start cmd "04_joy_drone_teleop" wait "running";
+    # start cmd "05_pozys_simulation" wait "running";
+}
