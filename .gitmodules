@@ -39,3 +39,6 @@
 [submodule "catkin_ws/src/jetsea_vessel"]
 	path = catkin_ws/src/jetsea_vessel
 	url = git@github.com:ARG-NCTU/jetsea_vessel.git
+[submodule "catkin_ws/src/behavior_tree_extra"]
+	path = catkin_ws/src/behavior_tree_extra
+	url = git@github.com:ARG-NCTU/behavior_tree_extra.git
