@@ -1,0 +1,72 @@
+<launch>
+	<arg name="latitude" default="-33.722761"/>
+	<arg name="longitude" default="150.673997"/>
+    <arg name="gps_duplicate" default="false"/>
+    <arg name="imu_rotate" default='0' />
+    <arg name="veh" default="wamv"/> 
+    <arg name="num" default="6"/>
+
+    <group ns="$(arg veh)" >
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)" />
+        </node>
+    </group>
+
+    <group ns="$(arg veh)1" if="$(eval arg('num') - 1 > 0)">
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)1" />
+        </node>
+    </group>
+
+    <group ns="$(arg veh)2" if="$(eval arg('num') - 2 > 0)">
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)2" />
+        </node>
+    </group>
+
+    <group ns="$(arg veh)3" if="$(eval arg('num') - 3 > 0)">
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)3" />
+        </node>
+    </group>
+
+    <group ns="$(arg veh)4" if="$(eval arg('num') - 4 > 0)">
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)4" />
+        </node>
+    </group>
+
+    <group ns="$(arg veh)5" if="$(eval arg('num') - 5 > 0)">
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)5" />
+        </node>
+    </group>
+
+    <group ns="$(arg veh)6" if="$(eval arg('num') - 6 > 0)">
+        <node pkg="localization" type="localization_gps_imu.py" name="localization_gps_imu" respawn="false" output="screen">
+            <param name="latitude" value="$(arg latitude)"/>
+            <param name="longitude" value="$(arg longitude)"/>
+            <param name="imu_rotate" value="$(arg imu_rotate)" />
+            <param name="namespace" value="$(arg veh)6" />
+        </node>
+    </group>
+
+</launch>

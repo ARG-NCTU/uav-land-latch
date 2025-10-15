@@ -1,0 +1,13 @@
+<launch>
+	<arg name="latitude" default="-33.722761"/>
+	<arg name="longitude" default="150.673997"/>
+    <arg name="gps_duplicate" default="false"/>
+    <arg name="imu_rotate" default='0' />
+    <arg name="veh" default="wamv"/> 
+
+    <group ns="$(arg veh)">
+        <node pkg="localization" type="localization_p3d.py" name="localization_p3d" respawn="false" output="screen">
+        </node>
+    </group>
+
+</launch>

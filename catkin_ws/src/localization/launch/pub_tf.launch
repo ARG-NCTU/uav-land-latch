@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="veh" default="wamv2" />
+
+    <group ns="$(arg veh)">
+        <node pkg="localization" type="pub_gazebo_tf.py" name="pub_gazebo_tf" output="screen" />
+            <param name="veh" value="$(arg veh)" />
+            
+    </group>
+</launch>

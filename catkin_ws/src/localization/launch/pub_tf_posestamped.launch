@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="model_name" default="wamv"/>
+    <arg name="model_tf_suffix" default="base_link"/>
+    <arg name="broadcast_rate" default="20" />
+    <arg name="pub_tf" default="true" />
+    <arg name="pub_pose" default="true" />
+
+    <group ns="$(arg model_name)">    
+        <group if="$(arg pub_tf)">
+            <node pkg="vrx_gazebo" type="model_state_to_tf.py" name="model_state_to_tf" output="log">
+                <param name="~model_name" value="$(arg model_name)" />
+                <param name="~model_tf_suffix" value="$(arg model_tf_suffix)" />
+                <param name="broadcast_rate" value="$(arg broadcast_rate)" />
+            </node>
+        </group>
+        <group if="$(arg pub_pose)">
+            <node pkg="vrx_gazebo" type="model_state_to_pose_stamped.py" name="model_state_to_pose_stamped" output="log">
+                <param name="model_name" value="$(arg model_name)"/>
+                <param name="publish_rate" value="$(arg broadcast_rate)"/>
+            </node>
+        </group>
+    </group>
+</launch>
