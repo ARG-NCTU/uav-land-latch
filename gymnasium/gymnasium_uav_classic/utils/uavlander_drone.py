@@ -54,7 +54,7 @@ class UWBROSConnector:
                     i * anchor_num,
                 )
             )
-        yaml_file_path = "/home/argrobotx/robotx-2022/catkin_ws/src/pozyx_ros/config/wamv/wamv.yaml"
+        yaml_file_path = "/home/argrobotx/uav-land-latch/catkin_ws/src/pozyx_ros/config/wamv/wamv.yaml"
         with open(yaml_file_path, "r") as file:
             data = yaml.safe_load(file)
 
@@ -64,7 +64,7 @@ class UWBROSConnector:
         self.uwb_anchor_pose = np.array(coordinates_list) / 1000.0
         print("Anchor poses: \n{}\n".format(self.uwb_anchor_pose))
 
-        yaml_file_path = "/home/argrobotx/robotx-2022/catkin_ws/src/pozyx_ros/config/wamv/drone.yaml"
+        yaml_file_path = "/home/argrobotx/uav-land-latch/catkin_ws/src/pozyx_ros/config/wamv/drone.yaml"
         with open(yaml_file_path, "r") as file:
             data = yaml.safe_load(file)
 

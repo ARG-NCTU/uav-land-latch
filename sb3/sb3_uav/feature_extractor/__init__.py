@@ -1,0 +1,1 @@
+from sb3_uav.feature_extractor.uav_multi_extractor import UAVMultiExtractor
